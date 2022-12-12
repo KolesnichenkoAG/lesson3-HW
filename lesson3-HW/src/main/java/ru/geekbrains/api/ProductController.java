@@ -3,9 +3,7 @@ package ru.geekbrains.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.model.Product;
 import ru.geekbrains.repository.ProductRepository;
 
@@ -19,10 +17,9 @@ public class ProductController {
     private ProductRepository productRepository;
 
     @GetMapping("/all")
-    public String getProduct(Model model) {
-        List<Product> products = productRepository.generateProductList();
-        model.addAttribute("products", products);
-        return "products";
+    public String showProduct(Model model) {
+        model.addAttribute("products", productRepository.getAllProducts());
+        return "productsAll";
     }
 
     @GetMapping("/products/{id}")
@@ -30,5 +27,17 @@ public class ProductController {
         Product product = productRepository.findById(id);
         model.addAttribute("product", product);
         return "productsInfo";
+    }
+
+    @GetMapping("/show_form")
+    public String showFormPage() {
+        return "simple_form";
+    }
+
+    @GetMapping("/prod_add")
+    public String addProduct(@RequestParam Long id, @RequestParam String title, @RequestParam Integer cost) {
+        Product product = new Product(id, title, cost);
+        productRepository.add(product);
+        return "redirect:/products/all";
     }
 }

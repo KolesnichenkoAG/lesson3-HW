@@ -1,13 +1,13 @@
 package ru.geekbrains.model;
 
 public class Product {
-    private static Long counter = 1l;
+    //private static Long counter = 1l;
     private Long id;
     private String title;
-    private int cost;
+    private Integer cost;
 
-    public Product(String title, int cost) {
-        this.id = counter++;
+    public Product(Long id, String title, Integer cost) {
+        this.id = id;
         this.title = title;
         this.cost = cost;
     }
@@ -20,7 +20,7 @@ public class Product {
         return title;
     }
 
-    public int getCost() {
+    public Integer getCost() {
         return cost;
     }
 }
